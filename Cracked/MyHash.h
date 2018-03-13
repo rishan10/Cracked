@@ -23,7 +23,7 @@ public:
     {
         return const_cast<ValueType*>(const_cast<const MyHash*>(this)->find(key));
     }
-
+//
       // C++11 syntax for preventing copying and assignment
     MyHash(const MyHash&) = delete;
     MyHash& operator=(const MyHash&) = delete;
