@@ -8,7 +8,7 @@
 #include <algorithm>
 #include <numeric>
 #include <cassert> //make sure to remove later!
-#include "MyHash.h"
+#include "MyHash.h" //remove?
 using namespace std;
 
 const string WORDLIST_FILE = "wordlist.txt";
@@ -80,5 +80,20 @@ int main(int argc, char* argv[])
 //    assert(*math32b.find(72) == 5);
 //    assert(math32b.getNumItems() == 11);
 //    assert(math32b.getLoadFactor() == 11.0/100.0);
-//    math32b.printHashTable();
+    //math32b.printHashTable();
+    
+    //Tokenizer testing...
+//    Tokenizer t(" ,.!");
+//    vector<string> v = t.tokenize("This,, is a test! It's the... best!");
+//    // v now contains "This", "is", "a", "test", "It's", "the", and "best"
+//    assert(v.size() == 7);
+//    vector<string>::iterator it;
+//    it = v.begin();
+//    while(it != v.end()) {
+//        cout << *it << endl;
+//        it++;
+//    }
+//    string s = "!!!!!"; v = t.tokenize(s);
+//    assert(v.size() == 0);
+//    // v is now empty
 }
