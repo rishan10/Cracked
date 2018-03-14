@@ -65,21 +65,21 @@ int main(int argc, char* argv[])
 //	return 1;
   
     //My hash testing:
-//    MyHash<int, int> math32b;
-//    math32b.associate(1, 1);
-//    math32b.associate(31, 3);
-//    math32b.associate(21, 4);
-//    math32b.associate(72, 5);
-//    math32b.associate(91, 6);
-//    math32b.associate(81, 7);
-//    math32b.associate(71, 8);
-//    math32b.associate(61, 9);
-//    math32b.associate(51, 10);
-//    math32b.associate(41, 2);
-//    math32b.associate(40, 17);
-//    assert(*math32b.find(72) == 5);
-//    assert(math32b.getNumItems() == 11);
-//    assert(math32b.getLoadFactor() == 11.0/100.0);
+    MyHash<int, int> math32b;
+    math32b.associate(1, 1);
+    math32b.associate(31, 3);
+    math32b.associate(21, 4);
+    math32b.associate(72, 5);
+    math32b.associate(91, 6);
+    math32b.associate(81, 7);
+    math32b.associate(71, 8);
+    math32b.associate(61, 9);
+    math32b.associate(51, 10);
+    math32b.associate(41, 2);
+    math32b.associate(40, 17);
+    assert(*math32b.find(72) == 5);
+    assert(math32b.getNumItems() == 11);
+    assert(math32b.getLoadFactor() == 11.0/100.0);
     //math32b.printHashTable();
     
     //Tokenizer testing...
@@ -96,4 +96,56 @@ int main(int argc, char* argv[])
 //    string s = "!!!!!"; v = t.tokenize(s);
 //    assert(v.size() == 0);
 //    // v is now empty
+    
+    //Translate testing
+//    Translator t;
+//    string secret = "Hdqlx!";
+//    string translated = t.getTranslation(secret);
+//    cout << "The translated message is: " << translated;
+//     //writes The translated message is: ?????!
+    
+//    Translator t;
+//    // Submit the mapping DàE, HàR, LàD
+//    t.pushMapping("DHL", "ERD");
+//    string secret = "Hdqlx!";
+//    cout << t.getTranslation(secret) << endl; // writes Re?d?!
+    
+//    Translator t;
+//    // Submit the first collection of character mappings
+//    t.pushMapping("DHL", "ERD"); // DàE, HàR, LàD
+//    string secret = "Hdqlx!";
+//    cout << t.getTranslation(secret) << endl; // writes Re?d?!
+//    // Submit a second collection of character mappings
+//    t.pushMapping("QX", "AY"); // QàA, XàY
+//    
+//    cout << t.getTranslation(secret) << endl; // writes Ready!
+//    Translator t;
+//    // Submit the first collection of mappings
+//    t.pushMapping("DHL", "ERD"); // DàE, HàR, LàD
+//    string secret = "Hdqlx!";
+//    cout << t.getTranslation(secret) << endl; // writes Re?d?!
+//    
+//    // Submit a second collection of mappings
+//    t.pushMapping("QX", "AY"); // QàA, XàY
+//    
+//    cout << t.getTranslation(secret) << endl; // writes Ready!
+//    // Pop the most recently pushed collection
+//    t.popMapping();
+//    cout << t.getTranslation(secret) << endl; // writes Re?d?!
+//    // Pop again
+//    t.popMapping();
+//    cout << t.getTranslation(secret) << endl; // writes ?????!
+    
+//    Translator t;
+//    t.pushMapping("DHL", "ERD"); // DàE, HàR, LàD
+//    if ( ! t.pushMapping("QX", "RY")) // QàR, XàY
+//        cout << "Both H and Q would map to R!" << endl;
+//    // The current mapping is still DàE, HàR, LàD with no
+//    // mapping for Q or X
+//    cout << t.getTranslation("HDX") << endl; // writes RE?
+//    if ( ! t.pushMapping("H", "S")) // HàS
+//        cout << "H would map to both R and S!" << endl;
+    
+    
+
 }
