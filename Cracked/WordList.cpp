@@ -4,7 +4,7 @@
 #include <functional>
 #include <iostream>
 #include <fstream>
-#include "substituteMyHash.h"
+#include "MyHash.h"
 using namespace std;
 
 class WordListImpl
@@ -15,13 +15,17 @@ public:
     bool loadWordList(string filename);
     bool contains(string word) const;
     vector<string> findCandidates(string cipherWord, string currTranslation) const;
+    
 private:
     MyHash<string, vector<string>>* words;
     string getPattern(string word) const;
     bool isWord(string word) const;
     bool isWord(string word, char extraChar) const;
     string allLowercase(string word) const;
+    
 };
+
+
 
 WordListImpl::WordListImpl() {
     words = new MyHash<string, vector<string>>;
@@ -73,22 +77,21 @@ bool WordListImpl::loadWordList(string filename)
         //grabs word from the text file
         if(isWord(word)) {
             string pattern = getPattern(word);
+            cout << pattern << endl;
             if(words->find(pattern) == nullptr) {
                 //if pattern is new
                 vector<string> v;
                 v.push_back(word);
-                cout << pattern << endl;
+                //cout << pattern << endl;
                 words->associate(pattern, v); //now pattern is added with the vector
             }else{
                 //if pattern is already there
-                
                 words->find(pattern)->push_back(word);
             }
         }
     }
     
     infile.close();
-    
     return true;  // This compiles, but may  be correct
 }
 
@@ -118,10 +121,11 @@ vector<string> WordListImpl::findCandidates(string cipherWord, string currTransl
     vector<string> candidates;
     if(isWord(cipherWord) && isWord(currTranslation, '?') && currTranslation.size() == cipherWord.size()) {
         string pattern  = getPattern(cipherWord);
-        vector<string> v = *words->find(pattern);
+        vector<string>* v = words->find(pattern);
+        if(v == nullptr) return vector<string>();
         vector<string>:: iterator it;
-        it = v.begin();
-        while(it != v.end()) {
+        it = v->begin();
+        while(it != v->end()) {
             string w = *it;
             for(int i = 0; i < currTranslation.size(); i++) {
                 char ct = currTranslation[i];
