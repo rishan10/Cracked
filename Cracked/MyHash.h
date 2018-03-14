@@ -2,7 +2,7 @@
 
 // Skeleton for the MyHash class template.  You must implement the first seven
 // member functions; we have implemented the eighth.
-
+#include <iostream> // remove later
 const int DEFAULT_BUCKETS = 100;
 template<typename KeyType, typename ValueType>
 class MyHash
@@ -33,7 +33,7 @@ private:
     struct Node {
         KeyType key;
         ValueType value;
-        Node* next;
+        Node* next = nullptr;
     };
     
     
@@ -95,10 +95,14 @@ void MyHash<KeyType, ValueType>:: reset() {
             delete temp;
         }
     }
+    delete [] hashTable;
     m_size = 0;
     
     //allocate another 100 buckets
     hashTable = new Node*[DEFAULT_BUCKETS];
+    for(int i = 0; i < m_nbuckets; i++) {
+        hashTable[i] = nullptr;
+    }
     m_nbuckets = DEFAULT_BUCKETS;
     //max load factor is unchanged
 }
@@ -214,10 +218,12 @@ void MyHash<KeyType, ValueType>::copyNodeInto(Node* p, Node** arr) {
 template<typename KeyType, typename ValueType>
 const ValueType* MyHash<KeyType, ValueType>::find(const KeyType& key) const {
     int slotNum = getSlotNum(key);
+    //std::cout << key << std::endl;
     if(hashTable[slotNum] == nullptr)
         return nullptr;
     Node* p = hashTable[slotNum];
     while(p!=nullptr) {
+        //std::cout << p->key << " " << key << std::endl;
         if(p->key == key) {
             return &(p->value);
         }

@@ -65,21 +65,21 @@ int main(int argc, char* argv[])
 //	return 1;
   
     //My hash testing:
-    MyHash<int, int> math32b;
-    math32b.associate(1, 1);
-    math32b.associate(31, 3);
-    math32b.associate(21, 4);
-    math32b.associate(72, 5);
-    math32b.associate(91, 6);
-    math32b.associate(81, 7);
-    math32b.associate(71, 8);
-    math32b.associate(61, 9);
-    math32b.associate(51, 10);
-    math32b.associate(41, 2);
-    math32b.associate(40, 17);
-    assert(*math32b.find(72) == 5);
-    assert(math32b.getNumItems() == 11);
-    assert(math32b.getLoadFactor() == 11.0/100.0);
+//    MyHash<int, int> math32b;
+//    math32b.associate(1, 1);
+//    math32b.associate(31, 3);
+//    math32b.associate(21, 4);
+//    math32b.associate(72, 5);
+//    math32b.associate(91, 6);
+//    math32b.associate(81, 7);
+//    math32b.associate(71, 8);
+//    math32b.associate(61, 9);
+//    math32b.associate(51, 10);
+//    math32b.associate(41, 2);
+//    math32b.associate(40, 17);
+//    assert(*math32b.find(72) == 5);
+//    assert(math32b.getNumItems() == 11);
+//    assert(math32b.getLoadFactor() == 11.0/100.0);
     //math32b.printHashTable();
     
     //Tokenizer testing...
@@ -147,5 +147,29 @@ int main(int argc, char* argv[])
 //        cout << "H would map to both R and S!" << endl;
     
     
-
+        
+        WordList wl;
+        
+        if ( ! wl.loadWordList("/Users/rishangirish/Documents/Dev/cs32/Cracked/Cracked/wordlist.txt"))
+        {
+            cout << "Unable to load word list" << endl;
+            return 1;
+        }
+        
+        if (wl.contains("onomatopoeia"))
+            cout << "I found onomatopoeia!" << endl;
+        else
+            cout << "Onomatopoeia is not in the word list!" << endl;
+    
+        string cipher = "xyqbbq";
+        string decodedSoFar = "?r????";
+        vector<string> v = wl.findCandidates(cipher, decodedSoFar);
+    
+        if (v.empty())
+            cout << "No matches found" << endl;
+        else{
+            cout << "Found these matches:" << endl;
+            for (size_t k = 0; k < v.size(); k++)
+                cout << v[k] << endl; // writes grotto and troppo
+        }
 }
