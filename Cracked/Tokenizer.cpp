@@ -23,9 +23,10 @@ vector<string> TokenizerImpl::tokenize(const string& s) const
     vector<string> words;
     string word = "";
     int i = 0;
-    
+    bool hitASeparator = false;
     while(i < s.size()) {
         if(isSeparator(s[i])) {
+            hitASeparator = true;
             if(word != "") words.push_back(word);
             word = "";
         }else{
@@ -34,6 +35,8 @@ vector<string> TokenizerImpl::tokenize(const string& s) const
             
         i++;
     }
+    
+    if(!hitASeparator) words.push_back(word);
     
     return words;  // This compiles, but may not be correct
 }

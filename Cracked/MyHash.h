@@ -100,10 +100,10 @@ void MyHash<KeyType, ValueType>:: reset() {
     
     //allocate another 100 buckets
     hashTable = new Node*[DEFAULT_BUCKETS];
+    m_nbuckets = DEFAULT_BUCKETS;
     for(int i = 0; i < m_nbuckets; i++) {
         hashTable[i] = nullptr;
     }
-    m_nbuckets = DEFAULT_BUCKETS;
     //max load factor is unchanged
 }
 
@@ -255,7 +255,7 @@ void MyHash<KeyType, ValueType>::printHashTable() {
         Node* p = hashTable[i];
         std::cout << i << ") ";
         while(p!= nullptr) {
-            std::cout<< "(Key: " << p->key << ", Value: " << p->value << ")->";
+            std::cout<< "(Key: " << p->key << ", Value: " << &p->value << ")->";
             
             p = p->next;
         }

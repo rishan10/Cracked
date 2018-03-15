@@ -36,7 +36,7 @@ bool TranslatorImpl::pushMapping(string ciphertext, string plaintext)
     if(ciphertext.size() != plaintext.size()) return false;
     //if either contains a non-letter:
     for(int i = 0; i < ciphertext.size(); i++) {
-        if(!isalpha(ciphertext[i])) {
+        if(!isalpha(ciphertext[i]) || !isalpha(plaintext[i])) {
             return false;
         }
     }

@@ -77,7 +77,7 @@ bool WordListImpl::loadWordList(string filename)
         //grabs word from the text file
         if(isWord(word)) {
             string pattern = getPattern(word);
-            cout << pattern << endl;
+            //cout << pattern << endl;
             if(words->find(pattern) == nullptr) {
                 //if pattern is new
                 vector<string> v;
@@ -86,7 +86,15 @@ bool WordListImpl::loadWordList(string filename)
                 words->associate(pattern, v); //now pattern is added with the vector
             }else{
                 //if pattern is already there
-                words->find(pattern)->push_back(word);
+                vector<string>* v = words->find(pattern);
+//                vector<string>:: iterator it;
+//                it = v->begin();
+//                while(it != v->end()) {
+//                    cout << *it << endl;
+//                    it++;
+//                }
+                v->push_back(word);
+                
             }
         }
     }
@@ -127,29 +135,36 @@ vector<string> WordListImpl::findCandidates(string cipherWord, string currTransl
         it = v->begin();
         while(it != v->end()) {
             string w = *it;
+            bool shouldAdd = true;
             for(int i = 0; i < currTranslation.size(); i++) {
                 char ct = currTranslation[i];
                 if(isalpha(ct)) {
                     //if it is a letter, then w[i] just also be the same letter
                     char ct1 = tolower(ct);
                     char cp = tolower(w[i]);
-                    if(cp != ct1)
+                    if(cp != ct1) {
+                        shouldAdd = false;
                         break; //current word is not a right candidate
+                    }
                     if(!isalpha(cipherWord[i])) return vector<string>(); //if ciphertext is not alpha return mt
                         
                 }else if(ct == '?'){
                     //if it is a ?
-                    if(!isalpha(w[i]))
+                    if(!isalpha(w[i])) {
+                        shouldAdd = false;
                         break; //current word is not a right candidate
+                    }
                     if(!isalpha(cipherWord[i])) return vector<string>(); //if ciphertext is not alpha return mt
                 }else if(ct == 39) {
                     //if an apostrophe
-                    if(w[i] != 39)
+                    if(w[i] != 39) {
+                        shouldAdd = false;
                         break; //current word is not a right candidate
+                    }
                     if(cipherWord[i] != 39) return vector<string>(); //if ciphertext is not apostrfe, return mt
                 }
             }
-            candidates.push_back(w); //w is a right candidate
+            if(shouldAdd) candidates.push_back(w); //w is a right candidate
             it++;
         }
         return candidates;
@@ -164,15 +179,16 @@ string WordListImpl::getPattern(string word) const {
     char index = 'A';
     MyHash<char, char> charMap;
     for(int i = 0; i < word.size(); i++) {
-        if(charMap.find(word[i]) == nullptr) {
+        char ch = tolower(word[i]);
+        if(charMap.find(ch) == nullptr) {
             //character is distinct since we havent added it before
             pattern += index; //add new mapping
-            charMap.associate(word[i], index); //push mapping
+            charMap.associate(ch, index); //push mapping
             index++; //change mapping
         }else{
             //character is not distinct...we added it before
             //need to get old mapping
-            char oldMapping = *charMap.find(word[i]);
+            char oldMapping = *charMap.find(ch);
             pattern += oldMapping; //add to pattern
         }
     }
