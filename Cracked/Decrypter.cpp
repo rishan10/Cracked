@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include <algorithm>
+#include <iostream>
 using namespace std;
 
 class DecrypterImpl
@@ -45,14 +46,7 @@ bool DecrypterImpl::checkTranslatedWordsInList(vector<string> translation) {
     it = translation.begin();
     while(it != translation.end()) {
         string word = *it;
-        bool fullyTranslated = true;
-        for(int i = 0; i < word.size(); i++) {
-            if(word[i] == '?') {
-                fullyTranslated = false;
-                break;
-            }
-        }
-        if(fullyTranslated) {
+        if(completelyTranslated(word)) {
             if(!wl.contains(word)) {
                 return false;
             }
@@ -120,7 +114,10 @@ void DecrypterImpl::crackHelper(const string& ciphertext_message, vector<string>
     vector<string>:: iterator candidateIterator;
     candidateIterator = candidates.begin();
     while(candidateIterator != candidates.end()) {
-        trans.pushMapping(longestUntranslated, *candidateIterator);
+        if(!trans.pushMapping(longestUntranslated, *candidateIterator)) {
+            candidateIterator++;
+            continue;
+        }
         
         //translate entire ciphertext into proposed plain text
         string proposedPlainText = trans.getTranslation(ciphertext_message);
@@ -140,11 +137,11 @@ void DecrypterImpl::crackHelper(const string& ciphertext_message, vector<string>
                 continue;
             }else{
                 //do we really need to push the mapping?
+                //cout << trans.getTranslation(ciphertext_message) << endl;
                 crackHelper(ciphertext_message, output);
-                 //do we really need this?
+                trans.popMapping();//good line
             }
         }
-        
         candidateIterator++;
     }
     

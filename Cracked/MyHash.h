@@ -2,7 +2,7 @@
 
 // Skeleton for the MyHash class template.  You must implement the first seven
 // member functions; we have implemented the eighth.
-#include <iostream> // remove later
+//#include <iostream> // remove later
 const int DEFAULT_BUCKETS = 100;
 template<typename KeyType, typename ValueType>
 class MyHash
@@ -27,7 +27,7 @@ public:
       // C++11 syntax for preventing copying and assignment
     MyHash(const MyHash&) = delete;
     MyHash& operator=(const MyHash&) = delete;
-    void printHashTable(); //for testing purposes only, remove once tested fully
+    //void printHashTable(); //for testing purposes only, remove once tested fully
 
 private:
     struct Node {
@@ -249,20 +249,20 @@ double MyHash<KeyType, ValueType>::getLoadFactor() const {
 }
 
 
-template<typename KeyType, typename ValueType>
-void MyHash<KeyType, ValueType>::printHashTable() {
-    for(int i = 0; i < m_nbuckets; i++) {
-        Node* p = hashTable[i];
-        std::cout << i << ") ";
-        while(p!= nullptr) {
-            std::cout<< "(Key: " << p->key << ", Value: " << &p->value << ")->";
-            
-            p = p->next;
-        }
-        std::cout << "nullptr";
-        std::cout << std::endl;
-    }
-}
+//template<typename KeyType, typename ValueType>
+//void MyHash<KeyType, ValueType>::printHashTable() {
+//    for(int i = 0; i < m_nbuckets; i++) {
+//        Node* p = hashTable[i];
+//        std::cout << i << ") ";
+//        while(p!= nullptr) {
+//            std::cout<< "(Key: " << p->key << ", Value: " << &p->value << ")->";
+//            
+//            p = p->next;
+//        }
+//        std::cout << "nullptr";
+//        std::cout << std::endl;
+//    }
+//}
 
 
 
