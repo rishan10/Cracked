@@ -31,6 +31,7 @@ vector<string> TokenizerImpl::tokenize(const string& s) const
             word = "";
         }else{
             word += s[i];
+            hitASeparator = false;
         }
             
         i++;

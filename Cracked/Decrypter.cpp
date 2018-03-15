@@ -1,6 +1,7 @@
 #include "provided.h"
 #include <string>
 #include <vector>
+#include <list>
 #include <algorithm>
 #include <iostream>
 using namespace std;
@@ -66,6 +67,7 @@ string DecrypterImpl::pickLongestUntranslatedWord(vector<string> v) {
     while(it != v.end()) {
         string ww = *it;
         string w = trans.getTranslation(ww);
+        //cout << "word in list: " << w << endl;
         for(int i = 0; i < w.size(); i++) {
             if(w[i] == '?') {
                 count++;
@@ -99,22 +101,25 @@ void DecrypterImpl::crackHelper(const string& ciphertext_message, vector<string>
         return;
     }
     
-    vector<string> cipherTextVector = t.tokenize(ciphertext_message); //tokenize message
+    vector<string> cipherTextVector = t.tokenize(ciphertext_message); //tokenize message//ERRORRRR
+    //cout << ciphertext_message << endl;
     string longestUntranslated = pickLongestUntranslatedWord(cipherTextVector); // pick longest unused, untranslated word
+    //cout << "picked word: " << longestUntranslated << endl;
     string translatedWord = trans.getTranslation(longestUntranslated);
     vector<string> candidates = wl.findCandidates(longestUntranslated, translatedWord);
     if(candidates.empty()) {
         //if there are no possible candidates, then mapping must be wrong
         //throw it away and return to previous call
-        trans.popMapping();
+        //cout << "Empty candidates" << endl;
+        //trans.popMapping();
         return;
-        
     }
     
     vector<string>:: iterator candidateIterator;
     candidateIterator = candidates.begin();
     while(candidateIterator != candidates.end()) {
-        if(!trans.pushMapping(longestUntranslated, *candidateIterator)) {
+        string candidate = *candidateIterator;
+        if(!trans.pushMapping(longestUntranslated, candidate)) {
             candidateIterator++;
             continue;
         }
@@ -132,12 +137,14 @@ void DecrypterImpl::crackHelper(const string& ciphertext_message, vector<string>
         if(allCompletelyTranslatedWordsFound(t.tokenize(proposedPlainText))) {
             if(completelyTranslated(proposedPlainText)) {
                 output.push_back(proposedPlainText);
+                //cout << proposedPlainText << endl;
                 trans.popMapping();
                 candidateIterator++;
                 continue;
             }else{
                 //do we really need to push the mapping?
                 //cout << trans.getTranslation(ciphertext_message) << endl;
+                //cout << *candidateIterator << endl;
                 crackHelper(ciphertext_message, output);
                 trans.popMapping();//good line
             }
